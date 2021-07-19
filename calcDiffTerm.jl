@@ -22,9 +22,9 @@ function calcDiffTerm(cellsThreadsX::Array{Int32,2}, testMeshDistrX::mesh2d_Int3
 			beginCell::Int32 = cellsThreadsX[p,1];
 			endCell::Int32 = cellsThreadsX[p,2];
 			
-			nodesDivergenceReconstructionFastSA(beginCell,endCell, testMeshDistrX,  viscousFields2dX.cdUdxCells,viscousFields2dX.cdUdyCells, viscousFields2dX.laplasUCuCells);
-			nodesDivergenceReconstructionFastSA(beginCell,endCell, testMeshDistrX,  viscousFields2dX.cdVdxCells,viscousFields2dX.cdVdyCells, viscousFields2dX.laplasUCvCells);
-			nodesDivergenceReconstructionFastSA(beginCell,endCell, testMeshDistrX,  viscousFields2dX.cdEdxCells,viscousFields2dX.cdEdyCells, viscousFields2dX.laplasUCeCells);
+			nodesDivergenceReconstructionFastSA22(beginCell,endCell, testMeshDistrX,  viscousFields2dX.cdUdxCells,viscousFields2dX.cdUdyCells, viscousFields2dX.laplasUCuCells);
+			nodesDivergenceReconstructionFastSA22(beginCell,endCell, testMeshDistrX,  viscousFields2dX.cdVdxCells,viscousFields2dX.cdVdyCells, viscousFields2dX.laplasUCvCells);
+			nodesDivergenceReconstructionFastSA22(beginCell,endCell, testMeshDistrX,  viscousFields2dX.cdEdxCells,viscousFields2dX.cdEdyCells, viscousFields2dX.laplasUCeCells);
 
 			
 			
@@ -38,15 +38,17 @@ function calcDiffTerm(cellsThreadsX::Array{Int32,2}, testMeshDistrX::mesh2d_Int3
 	
 			beginCell::Int32 = cellsThreadsX[p,1];
 			endCell::Int32 = cellsThreadsX[p,2];
+			avEpsilon::Float64 = 1e-5;
+			Pr::Float64 = 3.0/4.0;
 			
-		
+			
 			for i = beginCell:endCell
 			
-				avEpsilon::Float64 = 1e-5;
+				
 					
 				if (viscousFields2dX.artViscosityCells[i] > avEpsilon)
 					
-					Pr::Float64 = 3.0/4.0;
+					
 					UConsDiffCells[i,2] = viscousFields2dX.artViscosityCells[i]*viscousFields2dX.laplasUCuCells[i];
 					UConsDiffCells[i,3] = viscousFields2dX.artViscosityCells[i]*viscousFields2dX.laplasUCvCells[i];
 					UConsDiffCells[i,4] = viscousFields2dX.artViscosityCells[i]*thermoX.Cp/Pr*viscousFields2dX.laplasUCeCells[i];

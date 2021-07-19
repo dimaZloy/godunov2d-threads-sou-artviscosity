@@ -8,7 +8,11 @@
 	#nCells = size(UConsCellsOld,1);
 	
 	uLeftp = zeros(Float64,4);
-	#FLUXES = zeros(Float64,nCells);
+	edge_flux1 = zeros(Float64,4);
+	edge_flux2 = zeros(Float64,4);
+	edge_flux3 = zeros(Float64,4);
+	edge_flux4 = zeros(Float64,4);
+	
 	
 	for i = beginCell:endCell
     
@@ -22,7 +26,7 @@
 		
 	   
 		
-		if (num_nodes == 3)
+		if (testMesh.mesh_connectivity[i,3] == 3)
 		
 			edge_flux1 = ( computeInterfaceSlope(i, Int32(1), testMesh, testFields, thermo, uLeftp, flowTime) );
 			edge_flux2 = ( computeInterfaceSlope(i, Int32(2), testMesh, testFields, thermo, uLeftp, flowTime) );
@@ -34,7 +38,7 @@
 			FLUXES[i,4] = edge_flux1[4] + edge_flux2[4] + edge_flux3[4];
 			
 
-		elseif (num_nodes == 4)
+		elseif (testMesh.mesh_connectivity[i,3] == 4)
 			
 			edge_flux1 = ( computeInterfaceSlope(i, Int32(1), testMesh, testFields, uLeftp, flowTime) );
 			edge_flux2 = ( computeInterfaceSlope(i, Int32(2), testMesh, testFields, uLeftp, flowTime) );
