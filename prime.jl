@@ -3,27 +3,13 @@
 using Distributed;
 using PyPlot;
 
-#const numThreads = 4;
-
-
-# if (numThreads != 1)
-
-	# if (nprocs() == 1)
-		# addprocs(numThreads,lazy=false); 
-		# display(workers());
-	# end
-		
-# end
-
-
-@everywhere using PyPlot;
-@everywhere using WriteVTK;
-@everywhere using CPUTime;
-@everywhere using DelimitedFiles;
-@everywhere using Printf
-@everywhere using BSON: @load
-@everywhere using BSON: @save
-@everywhere using SharedArrays;
+using WriteVTK;
+using CPUTime;
+using DelimitedFiles;
+using Printf
+using BSON: @load
+using BSON: @save
+using SharedArrays;
 
 using HDF5;
 using ProfileView;
@@ -32,8 +18,10 @@ using ProfileView;
 include("primeObjects.jl");
 include("thermo.jl"); #setup thermodynamics
 include("utilsIO.jl");
-include("RoeFlux2d.jl")
-include("AUSMflux2d.jl"); #AUSM+ inviscid flux calculation 
+#include("RoeFlux2d.jl")
+
+include("AUSMflux2dFast.jl"); #AUSM+ inviscid flux calculation 
+
 include("utilsFVM2dp.jl"); #FVM utililities
 ## utilsFVM2dp::cells2nodesSolutionReconstructionWithStencilsImplicitSA
 ## utilsFVM2dp::cells2nodesSolutionReconstructionWithStencilsSA
@@ -46,6 +34,7 @@ include("calcDiv.jl");
 include("calcArtViscosity.jl");
 include("calcDiffterm.jl");
 
+include("bcInviscidWall.jl"); 
 include("boundaryConditions2d.jl"); 
 
 include("initfields2d.jl");
@@ -57,9 +46,16 @@ include("evaluate2d.jl");
 ## propagate2d::updateVariablesSA()
 ## propagate2d::updateOutputSA()
 
+
+##include("computeslope2d.jl");
+#include("SOUscheme.jl");
+
+
 include("limiters.jl");
 include("computeslope2d.jl");
 include("SOUscheme.jl");
+
+
 ## computeslope2d:: computeInterfaceSlope()
 ## SOUscheme:: SecondOrderUpwindM2()
 
@@ -250,7 +246,7 @@ function godunov2dthreads(pname::String, outputfile::String, coldrun::Bool)
 		
 			end
 			
-			#@everywhere finalize(updateVariablesSA);	
+			
 			
 			
 			 #@sync @distributed for p in workers()	
@@ -265,7 +261,6 @@ function godunov2dthreads(pname::String, outputfile::String, coldrun::Bool)
 		
 			 end
 			
-			# @everywhere finalize(cells2nodesSolutionReconstructionWithStencilsDistributed);	
 			
 			
 			

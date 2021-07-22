@@ -13,10 +13,16 @@
 	edge_flux3 = zeros(Float64,4);
 	edge_flux4 = zeros(Float64,4);
 	
+	uUpp = zeros(Float64,4);
+	uDownp = zeros(Float64,4);
+	uRightp = zeros(Float64,4);
+	
+	##dummy = zeros(Float64,4);
+	
 	
 	for i = beginCell:endCell
     
-		num_nodes::Int64 = testMesh.mesh_connectivity[i,3];
+		##num_nodes::Int64 = testMesh.mesh_connectivity[i,3];
 		
 		
 		uLeftp[1] = testFields.densityCells[i];
@@ -24,14 +30,41 @@
 		uLeftp[3] = testFields.UyCells[i];
 		uLeftp[4] = testFields.pressureCells[i];
 		
+		edge_flux1[1] = 0.0;
+		edge_flux1[2] = 0.0;
+		edge_flux1[3] = 0.0;
+		edge_flux1[4] = 0.0;
+		
+		edge_flux2[1] = 0.0;
+		edge_flux2[2] = 0.0;
+		edge_flux2[3] = 0.0;
+		edge_flux2[4] = 0.0;
+		
+		edge_flux3[1] = 0.0;
+		edge_flux3[2] = 0.0;
+		edge_flux3[3] = 0.0;
+		edge_flux3[4] = 0.0;
+
+		edge_flux4[1] = 0.0;
+		edge_flux4[2] = 0.0;
+		edge_flux4[3] = 0.0;
+		edge_flux4[4] = 0.0;
+
+		
 	   
 		
 		if (testMesh.mesh_connectivity[i,3] == 3)
 		
-			edge_flux1 = ( computeInterfaceSlope(i, Int32(1), testMesh, testFields, thermo, uLeftp, flowTime) );
-			edge_flux2 = ( computeInterfaceSlope(i, Int32(2), testMesh, testFields, thermo, uLeftp, flowTime) );
-			edge_flux3 = ( computeInterfaceSlope(i, Int32(3), testMesh, testFields, thermo, uLeftp, flowTime) );
-				
+			#edge_flux1 = ( computeInterfaceSlope(i, Int32(1), testMesh, testFields, thermo, uLeftp, flowTime) );
+			#edge_flux2 = ( computeInterfaceSlope(i, Int32(2), testMesh, testFields, thermo, uLeftp, flowTime) );
+			#edge_flux3 = ( computeInterfaceSlope(i, Int32(3), testMesh, testFields, thermo, uLeftp, flowTime) );
+			
+			computeInterfaceSlope(i, Int32(1), testMesh, testFields, thermo, uLeftp, uUpp, uDownp, uRightp, flowTime, edge_flux1) ;
+			computeInterfaceSlope(i, Int32(2), testMesh, testFields, thermo, uLeftp, uUpp, uDownp, uRightp, flowTime, edge_flux2) ;
+			computeInterfaceSlope(i, Int32(3), testMesh, testFields, thermo, uLeftp, uUpp, uDownp, uRightp, flowTime, edge_flux3) ;
+	
+			
+					
 			FLUXES[i,1] = edge_flux1[1] + edge_flux2[1] + edge_flux3[1];
 			FLUXES[i,2] = edge_flux1[2] + edge_flux2[2] + edge_flux3[2];
 			FLUXES[i,3] = edge_flux1[3] + edge_flux2[3] + edge_flux3[3];
@@ -40,10 +73,18 @@
 
 		elseif (testMesh.mesh_connectivity[i,3] == 4)
 			
-			edge_flux1 = ( computeInterfaceSlope(i, Int32(1), testMesh, testFields, uLeftp, flowTime) );
-			edge_flux2 = ( computeInterfaceSlope(i, Int32(2), testMesh, testFields, uLeftp, flowTime) );
-			edge_flux3 = ( computeInterfaceSlope(i, Int32(3), testMesh, testFields, uLeftp, flowTime) );
-			edge_flux4 = ( computeInterfaceSlope(i, Int32(4), testMesh, testFields, uLeftp, flowTime) );
+			# edge_flux1 = ( computeInterfaceSlope(i, Int32(1), testMesh, testFields, uLeftp, flowTime) );
+			# edge_flux2 = ( computeInterfaceSlope(i, Int32(2), testMesh, testFields, uLeftp, flowTime) );
+			# edge_flux3 = ( computeInterfaceSlope(i, Int32(3), testMesh, testFields, uLeftp, flowTime) );
+			# edge_flux4 = ( computeInterfaceSlope(i, Int32(4), testMesh, testFields, uLeftp, flowTime) );
+			
+			
+			computeInterfaceSlope(i, Int32(1), testMesh, testFields, thermo, uLeftp, uUpp, uDownp, uRightp, flowTime, edge_flux1) ;
+			computeInterfaceSlope(i, Int32(2), testMesh, testFields, thermo, uLeftp, uUpp, uDownp, uRightp, flowTime, edge_flux2) ;
+			computeInterfaceSlope(i, Int32(3), testMesh, testFields, thermo, uLeftp, uUpp, uDownp, uRightp, flowTime, edge_flux3) ;
+			computeInterfaceSlope(i, Int32(4), testMesh, testFields, thermo, uLeftp, uUpp, uDownp, uRightp, flowTime, edge_flux4) ;
+			
+			
 				
 			FLUXES[i,1] = edge_flux1[1] + edge_flux2[1] + edge_flux3[1] + edge_flux4[1];
 			FLUXES[i,2] = edge_flux1[2] + edge_flux2[2] + edge_flux3[2] + edge_flux4[2];

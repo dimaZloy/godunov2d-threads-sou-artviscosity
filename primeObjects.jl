@@ -245,7 +245,7 @@ end
 
 
 @everywhere struct outputCONTROLS
-	verbosity::Int8
+	verbosity::Int16
 	header::String 
 	saveResiduals::Int8
 	saveResults::Int8

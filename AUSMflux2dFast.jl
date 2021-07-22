@@ -69,18 +69,18 @@ end
 # end
 
 
-@inline  function AUSMplusFlux2dFast(
-	uLeft::Array{Float64,1}, uRight::Array{Float64,1}, nx::Float64,  
-	ny::Float64, side::Float64, gamma::Float64, flux::Array{Float64,1})
+# @inline  function AUSMplusFlux2dFast(
+	# uLeft::Array{Float64,1}, uRight::Array{Float64,1}, nx::Float64,  
+	# ny::Float64, side::Float64, gamma::Float64, flux::Array{Float64,1})
 	
-	##flux = compute_1D_ARBITRARY_INVISCID_AUSM_PLUS_FLUX_from_UPHYS(uLeft[1],uLeft[2],uLeft[3],uLeft[4], uRight[1], uRight[2],uRight[3],uRight[4], nx,ny,side, gamma); 
+	# ##flux = compute_1D_ARBITRARY_INVISCID_AUSM_PLUS_FLUX_from_UPHYS(uLeft[1],uLeft[2],uLeft[3],uLeft[4], uRight[1], uRight[2],uRight[3],uRight[4], nx,ny,side, gamma); 
 	
-	 computeAUSMfluxFast(uLeft[1],uLeft[2],uLeft[3],uLeft[4], uRight[1], uRight[2],uRight[3],uRight[4], nx, ny, side, gamma, flux);
+	 # computeAUSMfluxFast(uLeft[1],uLeft[2],uLeft[3],uLeft[4], uRight[1], uRight[2],uRight[3],uRight[4], nx, ny, side, gamma, flux);
 	
-end
+# end
 
 
-@inline function computeAUSMfluxFast(
+@inline function AUSMplusFlux2dFast(
 				rhoL::Float64,	_UL::Float64, 	_VL::Float64, 	PL::Float64,
 				rhoR::Float64,	_UR::Float64, 	_VR::Float64,	PR::Float64, 
 				nx::Float64,  ny::Float64, side::Float64, 
