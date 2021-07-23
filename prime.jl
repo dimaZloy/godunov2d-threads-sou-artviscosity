@@ -12,7 +12,7 @@ using BSON: @save
 using SharedArrays;
 
 using HDF5;
-using ProfileView;
+##using ProfileView;
 
 
 include("primeObjects.jl");
@@ -20,7 +20,8 @@ include("thermo.jl"); #setup thermodynamics
 include("utilsIO.jl");
 #include("RoeFlux2d.jl")
 
-include("AUSMflux2dFast.jl"); #AUSM+ inviscid flux calculation 
+#include("AUSMflux2dFast.jl"); #AUSM+ inviscid flux calculation 
+include("AUSMupMflux2d.jl"); #AUSM+ inviscid flux calculation 
 
 include("utilsFVM2dp.jl"); #FVM utililities
 ## utilsFVM2dp::cells2nodesSolutionReconstructionWithStencilsImplicitSA
@@ -130,24 +131,6 @@ function godunov2dthreads(pname::String, outputfile::String, coldrun::Bool)
 	cells2nodesSolutionReconstructionWithStencilsUCons(nodesThreads, testMesh, UconsCellsOldX,  UconsNodesOldX );	
 	
 
-	
-	# testMeshDistr = createMesh2dShared(testMesh);
-	
-	
-	#@everywhere trianglesX = $triangles;
-	#@everywhere testMeshDistrX = $testMeshDistr; 
-	# @everywhere testMeshX = $testMesh; 
-	# @everywhere thermoX   = $thermo;
-	# @everywhere cellsThreadsX = $cellsThreads;
-	# @everywhere nodesThreadsX = $nodesThreads;
-	# @everywhere testfields2dX  = $testfields2d;
-	# @everywhere viscfields2dX  = $viscfields2d;
-		
-	# @everywhere dynControlsX = $dynControls;
-	# @everywhere solControlsX = $solControls;
-	# @everywhere pControlsX = $pControls;
-	# @everywhere outputX = $output;
-
 	timeVector = [];
 	residualsVector1 = []; 
 	residualsVector2 = []; 
@@ -195,7 +178,7 @@ function godunov2dthreads(pname::String, outputfile::String, coldrun::Bool)
 	# @everywhere maxEdgeX = $maxEdge; 
 
 	debug = true;	
-	useArtViscoistyDapming = true;
+	useArtViscoistyDapming = false;
 
 	
 	println("Start calculations ...");

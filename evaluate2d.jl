@@ -154,7 +154,8 @@ end
 			cla();
 			
 			##tricontourf(testMesh.xNodes,testMesh.yNodes, triangles, densityF,pControls.nContours,vmin=pControls.rhoMINcont,vmax=pControls.rhoMAXcont);
-			tricontourf(testMesh.xNodes,testMesh.yNodes, testMesh.triangles, testFields.densityNodes);
+			##tricontourf(testMesh.xNodes,testMesh.yNodes, testMesh.triangles, testFields.densityNodes);
+			tricontourf(testMesh.xNodes,testMesh.yNodes, testMesh.triangles, testFields.densityNodes, pControls.nContours,vmin=pControls.rhoMINcont,vmax=pControls.rhoMAXcont);
 			
 			set_cmap("jet");
 			xlabel("x");

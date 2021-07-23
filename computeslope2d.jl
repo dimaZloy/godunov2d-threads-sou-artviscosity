@@ -203,8 +203,8 @@
 			
 	#return RoeFlux2d(UpRight,UpLeft, nx,ny,side,thermo.Gamma);		
 	#AUSMplusFlux2d(UpRight,UpLeft, nx,ny,side,thermo.Gamma);	
-	AUSMplusFlux2dFast(UpRight[1],UpRight[2],UpRight[3],UpRight[4],UpLeft[1],UpLeft[2],UpLeft[3],UpLeft[4], nx,ny,side,thermo.Gamma, flux);	
-	
+	#AUSMplusFlux2dFast(UpRight[1],UpRight[2],UpRight[3],UpRight[4],UpLeft[1],UpLeft[2],UpLeft[3],UpLeft[4], nx,ny,side,thermo.Gamma, flux);	
+	AUSMplusMFlux2d(UpRight[1],UpRight[2],UpRight[3],UpRight[4],UpLeft[1],UpLeft[2],UpLeft[3],UpLeft[4], nx,ny,side,thermo.Gamma, flux);	
 	
 	
 
